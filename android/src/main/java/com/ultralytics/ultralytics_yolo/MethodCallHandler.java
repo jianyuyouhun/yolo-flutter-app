@@ -161,7 +161,7 @@ public class MethodCallHandler implements MethodChannel.MethodCallHandler {
                 useGpu = (boolean) useGpuObject;
             }
 
-            predictor.loadModel(yoloModel, true);
+            predictor.loadModel(yoloModel, useGpu);
 
             setPredictorFrameProcessor();
             setPredictorCallbacks();
@@ -286,7 +286,9 @@ public class MethodCallHandler implements MethodChannel.MethodCallHandler {
             if (imagePathObject != null) {
                 final String imagePath = (String) imagePathObject;
                 Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+                long startTime = System.currentTimeMillis();
                 final float[][] res = (float[][]) predictor.predict(bitmap);
+                long endTime = System.currentTimeMillis();
 
                 float scaleFactor = widthDp / bitmap.getWidth();
                 float newHeight = bitmap.getHeight() * scaleFactor;
@@ -309,6 +311,7 @@ public class MethodCallHandler implements MethodChannel.MethodCallHandler {
                     objectMap.put("confidence", confidence);
                     objectMap.put("index", index);
                     objectMap.put("label", label);
+                    objectMap.put("duration", endTime - startTime);
 
                     objects.add(objectMap);
                 }

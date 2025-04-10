@@ -8,10 +8,15 @@ class DetectedObject {
     required this.boundingBox,
     required this.index,
     required this.label,
+    required this.duration,
   });
 
   /// Creates a [DetectedObject] from a [json] object.
   factory DetectedObject.fromJson(Map<dynamic, dynamic> json) {
+    int? duration;
+    if (json['duration'] != null) {
+      duration = json['duration'] as int;
+    }
     return DetectedObject(
       confidence: json['confidence'] as double,
       boundingBox: Rect.fromLTWH(
@@ -22,6 +27,7 @@ class DetectedObject {
       ),
       index: json['index'] as int,
       label: json['label'] as String,
+      duration: duration,
     );
   }
 
@@ -36,4 +42,7 @@ class DetectedObject {
 
   /// The label of the detection.
   final String label;
+
+  /// The duration of the detection.
+  final int? duration;
 }

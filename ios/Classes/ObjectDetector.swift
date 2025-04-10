@@ -287,6 +287,7 @@ public class ObjectDetector: Predictor {
               "y": rect.origin.y,
               "width": rect.size.width,
               "height": rect.size.height,
+              "duration": 0,
             ])
           }
         }
